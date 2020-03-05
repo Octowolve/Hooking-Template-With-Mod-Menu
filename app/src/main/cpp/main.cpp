@@ -49,6 +49,7 @@ void* hack_thread(void*) {
     LOGI("I found the il2cpp lib. Address is: %lu", findLibrary(libName));
     LOGI("Hooking Player_Update");
     MSHookFunction((void*)getAbsoluteAddress(libName, 0x7000DCCD0), (void*)GameManager_LateUpdate, (void**)&old_GameManager_LateUpdate);
+    MSHookFunction((void*)getAbsoluteAddress(libName, 0x15AFAA46F8), (void*)MinimapItem_Show, (void**)old_MinimapItem_Show);
 
     return NULL;
 }
@@ -78,11 +79,7 @@ JNIEXPORT void JNICALL Java_com_dark_force_NativeLibrary_changeToggle(JNIEnv *en
     switch (i) {
         case 0:
             radar = !radar;
-            if (radar) {
-                MSHookFunction((void*)getAbsoluteAddress(libName, 0x15AFAA46F8), (void*)MinimapItem_Show, (void**)old_MinimapItem_Show);
-            } else {
-
-            }
+            break;
         default:
             break;
     }
