@@ -9,7 +9,7 @@
 #include "Substrate/CydiaSubstrate.h"
 #import "Includes/Utils.h"
 
-bool radar = false;
+bool exampleBooleanForToggle = false;
 bool PlayerUpdateHookInitialized = false;
 const char* libName = "libil2cpp.so";
 
@@ -29,15 +29,6 @@ void GameManager_LateUpdate(void *instance) {
     old_GameManager_LateUpdate(instance);
 }
 
-void(*old_MinimapItem_Show)(void* instance, bool idk);
-void MinimapItem_Show(void* instance, bool idk){
-    if(instance != NULL){
-        if(radar){
-            return;
-        }
-    }
-    old_MinimapItem_Show(instance, idk);
-}
 
 // we will run our patches in a new thread so our while loop doesn't block process main thread
 void* hack_thread(void*) {
@@ -49,7 +40,6 @@ void* hack_thread(void*) {
     LOGI("I found the il2cpp lib. Address is: %lu", findLibrary(libName));
     LOGI("Hooking Player_Update");
     MSHookFunction((void*)getAbsoluteAddress(libName, 0x7000DCCD0), (void*)GameManager_LateUpdate, (void**)&old_GameManager_LateUpdate);
-    MSHookFunction((void*)getAbsoluteAddress(libName, 0x15AFAA46F8), (void*)MinimapItem_Show, (void**)old_MinimapItem_Show);
 
     return NULL;
 }
@@ -59,7 +49,7 @@ JNIEXPORT jobjectArray JNICALL Java_com_dark_force_NativeLibrary_getListFT(JNIEn
     jobjectArray ret;
     int i;
     int Total_Feature = 1;
-    const char *features[]= {"Minimap Hack"};
+    const char *features[]= {"Example Toggle"};
 
     ret= (jobjectArray)env->NewObjectArray(Total_Feature,
                                            env->FindClass("java/lang/String"),
@@ -78,7 +68,7 @@ JNIEXPORT void JNICALL Java_com_dark_force_NativeLibrary_changeToggle(JNIEnv *en
     int i = (int) number;
     switch (i) {
         case 0:
-            radar = !radar;
+            exampleBooleanForToggle = !exampleBooleanForToggle;
             break;
         default:
             break;
