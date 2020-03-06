@@ -138,7 +138,6 @@ public class MenuService extends Service {
             this.modBody.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
             this.modBody.setOrientation(LinearLayout.VERTICAL);
 
-            addSpacing("Toggles");
             //Change Toggle (Due to a JNI function we can handle if a toggle has been changed)
             String[] listFT = NativeLibrary.getListFT();
             for (int i2 = 0; i2 < listFT.length; i2++) {
