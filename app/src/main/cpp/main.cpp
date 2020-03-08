@@ -10,7 +10,7 @@
 #import "Includes/Utils.h"
 
 bool exampleBooleanForToggle = false;
-bool PlayerUpdateHookInitialized = false;
+bool GameManagerLateUpdateHookInitialized = false;
 const char* libName = "libil2cpp.so";
 
 void(*old_GameManager_LateUpdate)(void *instance);
@@ -19,10 +19,10 @@ void GameManager_LateUpdate(void *instance) {
     //this is what the call to update would look like in C++:
     //NULL.Update(); and dat doesnt make sense right?
     if(instance != NULL) {
-        if(!PlayerUpdateHookInitialized){
+        if(!GameManagerLateUpdateHookInitialized){
             //Check if this hook initialized. If so log
-            PlayerUpdateHookInitialized = true;
-            LOGI("Player_Update hooked");
+            GameManagerLateUpdateHookInitialized = true;
+            LOGI("GameManager_LateUpdate hooked");
         }
         //Your code here
     }
