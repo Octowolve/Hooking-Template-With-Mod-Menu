@@ -138,6 +138,8 @@ public class MenuService extends Service {
             this.modBody.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
             this.modBody.setOrientation(LinearLayout.VERTICAL);
 
+            addSpacing("Toggles");
+            
             //Change Toggle (Due to a JNI function we can handle if a toggle has been changed)
             String[] listFT = NativeLibrary.getListFT();
             for (int i2 = 0; i2 < listFT.length; i2++) {
@@ -148,6 +150,34 @@ public class MenuService extends Service {
                     }
                 });
             }
+            
+            addSpacing("Buttons");
+
+            addButton("Test", new CompoundButton.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(true){
+                        Toast.makeText(NewMenuService.this, "Dropped AK47", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(NewMenuService.this, "Couldn't throw weapon", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            addSpacing("Seekbars");
+
+            addSeekBar("Test", 100, new SeekBar.OnSeekBarChangeListener() {
+                public void onProgressChanged(SeekBar seekBar, int i, boolean z) {
+                }
+
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    int progress = seekBar.getProgress();
+                }
+            });
+
 
             //Add Body to ScrollView
             scrollView.addView(this.modBody);
@@ -221,11 +251,58 @@ public class MenuService extends Service {
         switchR.setLayoutParams(layoutParams);
         //switchR.setPadding(10, 5, 10, 5);
         switchR.setText(str);
-        switchR.setTextColor(Color.parseColor("#d83868"));
+        switchR.setTextColor(Color.parseColor("#000000"));
         switchR.setTextSize(10.0f);
         switchR.setTypeface(switchR.getTypeface(), Typeface.BOLD);
         switchR.setOnCheckedChangeListener(onCheckedChangeListener);
         this.modBody.addView(switchR);
+    }
+    
+    private void addButton(String str, View.OnClickListener onClickListener) {
+        Button button = new Button(this);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -1);
+        layoutParams.setMargins(0, 2, 0, 0);
+        button.setLayoutParams(layoutParams);
+        button.setPadding(10, 5, 10, 5);
+        button.setText("♔  " + str + "  ♔");
+        button.setTextColor(Color.parseColor("#000000"));
+        button.setTextSize(10.0f);
+        button.setScaleX(0.85f);
+        button.setScaleY(0.85f);
+        button.setTypeface(button.getTypeface(), Typeface.BOLD);
+        button.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        button.setOnClickListener(onClickListener);
+        this.modBody.addView(button);
+    }
+
+    private void addSeekBar(String str, int i, SeekBar.OnSeekBarChangeListener onSeekBarChangeListener) {
+        TextView textView = new TextView(this);
+        textView.setText(str);
+        textView.setTextColor(Color.parseColor("#000000"));
+        textView.setTextSize(10.0f);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-2, -2);
+        textView.setLayoutParams(layoutParams);
+        layoutParams.setMargins(0, 2, 0, 0);
+        this.modBody.addView(textView);
+        SeekBar seekBar = new SeekBar(this);
+        seekBar.setMax(i);
+        seekBar.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
+        seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
+        this.modBody.addView(seekBar);
+    }
+
+
+    private void addSpacing(String string){
+        TextView textView = new TextView(this);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -1);
+        layoutParams.setMargins(0, 2, 0, 0);
+        textView.setLayoutParams(layoutParams);
+        textView.setGravity(1);
+        textView.setText("♔  " + string + "  ♔");
+        textView.setTextColor(Color.parseColor("#000000"));
+        textView.setTextSize(12.0f);
+        textView.setPadding(10, 5, 10, 5);
+        this.modBody.addView(textView);
     }
 
     //For our image a little converter
