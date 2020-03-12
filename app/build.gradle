@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.dark.force"
-        minSdkVersion 24
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
