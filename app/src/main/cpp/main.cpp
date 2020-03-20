@@ -49,9 +49,8 @@ extern "C"
 JNIEXPORT jobjectArray JNICALL Java_com_dark_force_NativeLibrary_getListFT(JNIEnv *env, jclass jobj){
     jobjectArray ret;
     int i;
-    int Total_Feature = 1;
     const char *features[]= {"Example Toggle"};
-
+    int Total_Feature = (sizeof features / sizeof features[0]); //Now you dont have to manually update the number everytime
     ret= (jobjectArray)env->NewObjectArray(Total_Feature,
                                            env->FindClass("java/lang/String"),
                                            env->NewStringUTF(""));
