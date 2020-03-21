@@ -38,7 +38,7 @@ void* hack_thread(void*) {
     do {
         sleep(1);
     } while (!isLibraryLoaded(libName));
-    LOGI("I found the il2cpp lib. Address is: %lu", findLibrary(libName));
+    LOGI("I found the il2cpp lib. Address is: %p", (void*)findLibrary(libName));
     LOGI("Hooking GameManager_LateUpdate");
     MSHookFunction((void*)getAbsoluteAddress(libName, 0x7000DCCD0), (void*)GameManager_LateUpdate, (void**)&old_GameManager_LateUpdate);
 
