@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -116,10 +117,11 @@ public class MenuService extends Service {
             this.mFloatingView = relativeLayout;
 
             //Main UI (Our background Image for the menu. Again change the name if your background name IMage has another name)
-            InputStream open2 = getAssets().open("ghwallpaper.jpg");
+            //InputStream open2 = getAssets().open("ghwallpaper.jpg");
             LinearLayout linearLayout = new LinearLayout(this);
             linearLayout.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
-            linearLayout.setBackground(Drawable.createFromStream(open2, null));
+            //linearLayout.setBackground(Drawable.createFromStream(open2, null)); //if you wanna use the Image instead
+            linearLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
             linearLayout.setOrientation(LinearLayout.VERTICAL);
 
             //Head Text (Creates a Header text. Credit yourself, and me ples)
@@ -127,7 +129,7 @@ public class MenuService extends Service {
             textView.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
             textView.setGravity(1);
             textView.setText(Html.fromHtml("<b>Mod by Octowolve</b>"));
-            textView.setTextColor(Color.parseColor("#d83868"));
+            textView.setTextColor(Color.parseColor("#000000"));
             textView.setTextSize(15.0f);
 
             //Scrollview for Toggles and Main Body
@@ -265,12 +267,12 @@ public class MenuService extends Service {
         button.setLayoutParams(layoutParams);
         button.setPadding(10, 5, 10, 5);
         button.setText("♔  " + str + "  ♔");
-        button.setTextColor(Color.parseColor("#000000"));
+        button.setTextColor(Color.parseColor("#FFFFFF"));
         button.setTextSize(10.0f);
         button.setScaleX(0.85f);
         button.setScaleY(0.85f);
         button.setTypeface(button.getTypeface(), Typeface.BOLD);
-        button.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        button.setBackgroundColor(Color.parseColor("#000000"));
         button.setOnClickListener(onClickListener);
         this.modBody.addView(button);
     }
