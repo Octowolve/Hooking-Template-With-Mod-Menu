@@ -157,9 +157,9 @@ public class MenuService extends Service {
                 @Override
                 public void onClick(View view) {
                     if(true){
-                        Toast.makeText(NewMenuService.this, "Dropped AK47", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuService.this, "Dropped AK47", Toast.LENGTH_SHORT).show();
                     }else{
-                        Toast.makeText(NewMenuService.this, "Couldn't throw weapon", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuService.this, "Couldn't throw weapon", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
