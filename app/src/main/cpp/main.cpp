@@ -13,6 +13,10 @@ bool exampleBooleanForToggle = false;
 bool GameManagerLateUpdateHookInitialized = false;
 const char* libName = "libil2cpp.so";
 
+struct Patches{
+    Patch* miniMap;
+}patch;
+
 void(*old_GameManager_LateUpdate)(void *instance);
 void GameManager_LateUpdate(void *instance) {
     //Check if instance is NULL to prevent crashes!  If the instance object is NULL,
@@ -41,7 +45,7 @@ void* hack_thread(void*) {
     LOGI("I found the il2cpp lib. Address is: %p", (void*)findLibrary(libName));
     LOGI("Hooking GameManager_LateUpdate");
     MSHookFunction((void*)getAbsoluteAddress(libName, 0x7000DCCD0), (void*)GameManager_LateUpdate, (void**)&old_GameManager_LateUpdate);
-
+    patch.miniMap = Patch::Setup((void*)getAbsoluteAddress(libName, 0xF09D64), "\x01\x00\xa0\xe3\x1e\xff\x2f\xe1", 8);
     return NULL;
 }
 
@@ -69,6 +73,11 @@ JNIEXPORT void JNICALL Java_com_dark_force_NativeLibrary_changeToggle(JNIEnv *en
     switch (i) {
         case 0:
             exampleBooleanForToggle = !exampleBooleanForToggle;
+            if(exampleBooleanForToggle){
+                patch.miniMap->Apply();
+            }else{
+                patch.miniMap->Reset();
+            }
             break;
         default:
             break;
