@@ -13,10 +13,14 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -24,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -152,20 +157,41 @@ public class MenuService extends Service {
             this.modBody.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
             this.modBody.setOrientation(LinearLayout.VERTICAL);
 
-            addSpacing("Toggles");
             
             //Change Toggle (Due to a JNI function we can handle if a toggle has been changed)
             String[] listFT = NativeLibrary.getListFT();
             for (int i2 = 0; i2 < listFT.length; i2++) {
                 final int l2 = i2;
-                addToggle(listFT[i2], new CompoundButton.OnCheckedChangeListener() {
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean z) {
-                        NativeLibrary.changeToggle(l2);
-                    }
-                });
+                String str = listFT[i2];
+                if (str.contains("SeekBar_")) {
+                    String[] split = str.split("_");
+                    addSeekBar(split[1], Integer.parseInt(split[2]), Integer.parseInt(split[3]), new SeekbarInterface() {
+                        public void OnWrite(int i2) {
+                            NativeLibrary.changeSeekBar(l2, i2);
+                        }
+                    });
+                } else if(str.contains("Spinner_")){
+                    String[] split = str.split("_");
+                    final String[] spinnerList = getSpinnerList(split[2]);
+                    addSpinner(split[1], spinnerList, new Spinner.OnItemSelectedListener(){
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            NativeLibrary.changeSpinner(l2, spinnerList[i]);
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                }else {
+                    addToggle(listFT[i2], new CompoundButton.OnCheckedChangeListener() {
+                        public void onCheckedChanged(CompoundButton compoundButton, boolean z) {
+                            NativeLibrary.changeToggle(l2);
+                        }
+                    });
+                }
+
             }
-            
-            addSpacing("Buttons");
 
             addButton("Test", new CompoundButton.OnClickListener() {
                 @Override
@@ -178,19 +204,8 @@ public class MenuService extends Service {
                 }
             });
 
-            addSpacing("Seekbars");
+            addSpacing("Who the fuck knows");
 
-            addSeekBar("Test", 100, new SeekBar.OnSeekBarChangeListener() {
-                public void onProgressChanged(SeekBar seekBar, int i, boolean z) {
-                }
-
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                }
-
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                    int progress = seekBar.getProgress();
-                }
-            });
 
 
             //Add Body to ScrollView
@@ -205,7 +220,7 @@ public class MenuService extends Service {
             button.setText("Hide");
             button.setTextColor(Color.parseColor("#93a6ae"));
             RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(-2, -2);
-            layoutParams2.addRule(11);
+            layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             button.setLayoutParams(layoutParams2);
             Button button2 = new Button(this);
             button2.setBackgroundColor(Color.parseColor("#14171f"));
@@ -300,8 +315,7 @@ public class MenuService extends Service {
         //switchR.setPadding(10, 5, 10, 5);
         switchR.setText(str);
         switchR.setTextColor(Color.parseColor("#93a6ae"));
-        switchR.setTextSize(10.0f);
-        switchR.setTypeface(switchR.getTypeface(), Typeface.BOLD);
+        switchR.setTextSize(12.0f);
         switchR.setOnCheckedChangeListener(onCheckedChangeListener);
         this.modBody.addView(switchR);
     }
@@ -314,31 +328,47 @@ public class MenuService extends Service {
         button.setPadding(10, 5, 10, 5);
         button.setText("♔  " + str + "  ♔");
         button.setTextColor(Color.parseColor("#93a6ae"));
-        button.setTextSize(10.0f);
+        button.setTextSize(12.0f);
         button.setScaleX(0.85f);
         button.setScaleY(0.85f);
-        button.setTypeface(button.getTypeface(), Typeface.BOLD);
         button.setBackgroundColor(Color.parseColor("#14171f"));
         button.setOnClickListener(onClickListener);
         this.modBody.addView(button);
     }
 
-    private void addSeekBar(String str, int i, SeekBar.OnSeekBarChangeListener onSeekBarChangeListener) {
-        TextView textView = new TextView(this);
-        textView.setText(str);
+    private void addSeekBar(final String str, final int i2, int i3, final SeekbarInterface sb) {
+        final TextView textView = new TextView(this);
+        textView.setText(str + ": " + i2);
         textView.setTextColor(Color.parseColor("#93a6ae"));
-        textView.setTextSize(10.0f);
+        textView.setTextSize(12.0f);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-2, -2);
         textView.setLayoutParams(layoutParams);
         layoutParams.setMargins(0, 2, 0, 0);
         this.modBody.addView(textView);
         SeekBar seekBar = new SeekBar(this);
-        seekBar.setMax(i);
+        seekBar.setMax(i3);
+        seekBar.setProgress(i2);
         seekBar.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
-        seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+
+            public void onProgressChanged(SeekBar seekBar, int i, boolean z) {
+                if (i < i2) {
+                    seekBar.setProgress(i2);
+                    sb.OnWrite(i2);
+                    textView.setText(str + ": " + i2);
+                    return;
+                }
+                sb.OnWrite(i);
+                textView.setText(str + ": " + i);
+            }
+        });
         this.modBody.addView(seekBar);
     }
-
 
     private void addSpacing(String string){
         TextView textView = new TextView(this);
@@ -353,12 +383,40 @@ public class MenuService extends Service {
         this.modBody.addView(textView);
     }
 
+    private void addSpinner(String str, String[] strArr, AdapterView.OnItemSelectedListener onItemSelectedListener) {
+        TextView textView = new TextView(this);
+        textView.setText(str);
+        textView.setTextSize(12.0f);
+        textView.setTextColor(Color.parseColor("#93a6ae"));
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
+        textView.setLayoutParams(layoutParams);
+        Spinner spinner = new Spinner(this);
+        spinner.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, strArr);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerArrayAdapter);
+        spinner.setOnItemSelectedListener(onItemSelectedListener);
+        this.modBody.addView(textView);
+        this.modBody.addView(spinner);
+    }
+
+    private String[] getSpinnerList(String type){
+        switch (type){
+            case "weaponsList":
+                String wupons[] = {"AK", "awp"};
+                return wupons;
+            default:
+                break;
+        }
+        return new String[0];
+    }
+
     //For our image a little converter
     private int convertDipToPixels(float f) {
         return (int) ((f * getResources().getDisplayMetrics().density) + 0.5f);
     }
 
-    //Check if we are still in the game. If now our Menu and Menu button will dissapear
+    //Check if we are still in the game. If now our Menu and Menu button will disappear
     private boolean isNotInGame() {
         ActivityManager.RunningAppProcessInfo runningAppProcessInfo = new ActivityManager.RunningAppProcessInfo();
         ActivityManager.getMyMemoryState(runningAppProcessInfo);
@@ -366,14 +424,17 @@ public class MenuService extends Service {
     }
 
     private void Thread() {
-        if (this.mFloatingView == null) {
-            return;
-        }
-        if (isNotInGame()) {
+        if (this.mFloatingView != null && isNotInGame()) {
             this.mFloatingView.setVisibility(View.INVISIBLE);
-            this.imageView.setVisibility(View.INVISIBLE);
         } else {
             this.mFloatingView.setVisibility(View.VISIBLE);
         }
+        if (imageView != null && isNotInGame()) {
+            this.imageView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private interface SeekbarInterface {
+        void OnWrite(int i);
     }
 }
