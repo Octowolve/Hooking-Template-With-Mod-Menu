@@ -38,7 +38,7 @@ public class MenuService extends Service {
     public View mFloatingView;
     private LinearLayout modBody;
     private WindowManager windowManager;
-
+    private ImageView imageView;
     public IBinder onBind(Intent intent) {
         return null;
     }
@@ -67,6 +67,8 @@ public class MenuService extends Service {
         super.onDestroy();
         if (mFloatingView != null)
             windowManager.removeView(mFloatingView);
+        if(imageView != null)
+            windowManager.removeView(imageView);
         Toast.makeText(getBaseContext(), "MenuService Stopped", Toast.LENGTH_SHORT).show();
     }
 
@@ -105,7 +107,7 @@ public class MenuService extends Service {
         relativeLayout.setLayoutParams(new RelativeLayout.LayoutParams(-1, -1));
 
         //Our ImageView handler which will be used for our Open/Closed button
-        ImageView imageView = new ImageView(this);
+        imageView = new ImageView(this);
         imageView.setLayoutParams(new RelativeLayout.LayoutParams(convertDipToPixels(50.0f), convertDipToPixels(50.0f)));
 
         try {
@@ -121,21 +123,31 @@ public class MenuService extends Service {
             LinearLayout linearLayout = new LinearLayout(this);
             linearLayout.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
             //linearLayout.setBackground(Drawable.createFromStream(open2, null)); //if you wanna use the Image instead
-            linearLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            linearLayout.setBackgroundColor(Color.parseColor("#14171f"));
             linearLayout.setOrientation(LinearLayout.VERTICAL);
 
             //Head Text (Creates a Header text. Credit yourself, and me ples)
             TextView textView = new TextView(this);
             textView.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
             textView.setGravity(1);
-            textView.setText(Html.fromHtml("<b>Mod by Octowolve</b>"));
-            textView.setTextColor(Color.parseColor("#000000"));
-            textView.setTextSize(15.0f);
+            textView.setText(Html.fromHtml("Mod by Octo"));
+            textView.setTextSize(20.0f);
+            textView.setTextColor(Color.parseColor("#93a6ae"));
+
+            TextView textView2 = new TextView(this);
+            textView2.setLayoutParams(new LinearLayout.LayoutParams(-2, convertDipToPixels(25.0f)));
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) textView2.getLayoutParams();
+            layoutParams.gravity = 17;
+            layoutParams.bottomMargin = 10;
+            textView2.setTextSize(15.0f);
+            textView2.setText(Html.fromHtml("Fuck"));
+            textView2.setTextColor(Color.parseColor("#93a6ae"));
 
             //Scrollview for Toggles and Main Body
             ScrollView scrollView = new ScrollView(this);
-            scrollView.setLayoutParams(new LinearLayout.LayoutParams(-1, convertDipToPixels(250.0f)));
+            scrollView.setLayoutParams(new LinearLayout.LayoutParams(-1, convertDipToPixels(260.0f)));
             scrollView.setScrollBarSize(convertDipToPixels(5.0f));
+            scrollView.setBackgroundColor(Color.parseColor("#181c25"));
             this.modBody = new LinearLayout(this);
             this.modBody.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
             this.modBody.setOrientation(LinearLayout.VERTICAL);
@@ -184,15 +196,36 @@ public class MenuService extends Service {
             //Add Body to ScrollView
             scrollView.addView(this.modBody);
 
+            RelativeLayout relativeLayout2 = new RelativeLayout(this);
+            relativeLayout2.setLayoutParams(new RelativeLayout.LayoutParams(-2, -1));
+            relativeLayout2.setPadding(10, 10, 10, 10);
+            relativeLayout2.setVerticalGravity(16);
+            Button button = new Button(this);
+            button.setBackgroundColor(Color.parseColor("#14171f"));
+            button.setText("Hide");
+            button.setTextColor(Color.parseColor("#93a6ae"));
+            RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(-2, -2);
+            layoutParams2.addRule(11);
+            button.setLayoutParams(layoutParams2);
+            Button button2 = new Button(this);
+            button2.setBackgroundColor(Color.parseColor("#14171f"));
+            button2.setText("Kill");
+            button2.setTextColor(Color.parseColor("#93a6ae"));
+            relativeLayout2.addView(button);
+            relativeLayout2.addView(button2);
+
             //Add Everything to LinearLayout
             linearLayout.addView(textView);
+            linearLayout.addView(textView2);
             linearLayout.addView(scrollView);
+            linearLayout.addView(relativeLayout2);
             frameLayout.addView(linearLayout);
 
             //Create Floating View
             final AlertDialog create = new AlertDialog.Builder(this, 2).create();
             Objects.requireNonNull(create.getWindow()).setType(i);
             create.setView(frameLayout);
+            create.setCanceledOnTouchOutside(false);
             final WindowManager.LayoutParams layoutParams3 = new WindowManager.LayoutParams(-2, -2, i, 8, -3);
             layoutParams3.gravity = 51;
             layoutParams3.x = 0;
@@ -222,6 +255,7 @@ public class MenuService extends Service {
                             //So that is click event.
                             if (Xdiff < 10 && Ydiff < 10) {
                                 create.show();
+                                imageView.setVisibility(View.INVISIBLE);
                             }
                             return true;
                         case MotionEvent.ACTION_MOVE:
@@ -234,6 +268,18 @@ public class MenuService extends Service {
                         default:
                             return false;
                     }
+                }
+            });
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    create.hide();
+                    imageView.setVisibility(View.VISIBLE);
+                }
+            });
+            button2.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    create.hide();
+                    MenuService.this.stopSelf();
                 }
             });
 
@@ -253,7 +299,7 @@ public class MenuService extends Service {
         switchR.setLayoutParams(layoutParams);
         //switchR.setPadding(10, 5, 10, 5);
         switchR.setText(str);
-        switchR.setTextColor(Color.parseColor("#000000"));
+        switchR.setTextColor(Color.parseColor("#93a6ae"));
         switchR.setTextSize(10.0f);
         switchR.setTypeface(switchR.getTypeface(), Typeface.BOLD);
         switchR.setOnCheckedChangeListener(onCheckedChangeListener);
@@ -267,12 +313,12 @@ public class MenuService extends Service {
         button.setLayoutParams(layoutParams);
         button.setPadding(10, 5, 10, 5);
         button.setText("♔  " + str + "  ♔");
-        button.setTextColor(Color.parseColor("#FFFFFF"));
+        button.setTextColor(Color.parseColor("#93a6ae"));
         button.setTextSize(10.0f);
         button.setScaleX(0.85f);
         button.setScaleY(0.85f);
         button.setTypeface(button.getTypeface(), Typeface.BOLD);
-        button.setBackgroundColor(Color.parseColor("#000000"));
+        button.setBackgroundColor(Color.parseColor("#14171f"));
         button.setOnClickListener(onClickListener);
         this.modBody.addView(button);
     }
@@ -280,7 +326,7 @@ public class MenuService extends Service {
     private void addSeekBar(String str, int i, SeekBar.OnSeekBarChangeListener onSeekBarChangeListener) {
         TextView textView = new TextView(this);
         textView.setText(str);
-        textView.setTextColor(Color.parseColor("#000000"));
+        textView.setTextColor(Color.parseColor("#93a6ae"));
         textView.setTextSize(10.0f);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-2, -2);
         textView.setLayoutParams(layoutParams);
@@ -301,7 +347,7 @@ public class MenuService extends Service {
         textView.setLayoutParams(layoutParams);
         textView.setGravity(1);
         textView.setText("♔  " + string + "  ♔");
-        textView.setTextColor(Color.parseColor("#000000"));
+        textView.setTextColor(Color.parseColor("#93a6ae"));
         textView.setTextSize(12.0f);
         textView.setPadding(10, 5, 10, 5);
         this.modBody.addView(textView);
@@ -325,6 +371,7 @@ public class MenuService extends Service {
         }
         if (isNotInGame()) {
             this.mFloatingView.setVisibility(View.INVISIBLE);
+            this.imageView.setVisibility(View.INVISIBLE);
         } else {
             this.mFloatingView.setVisibility(View.VISIBLE);
         }
