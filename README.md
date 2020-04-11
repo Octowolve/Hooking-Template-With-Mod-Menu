@@ -20,3 +20,7 @@ This is a simple template for the usage of Cydia Substrate with a Mod Menu writt
 
 ### My Discord
 Also consider joining my Discord Server https://discord.gg/bmRCJQ3
+
+### Layout
+This is how the menu looks like when you simply build and run it 
+
