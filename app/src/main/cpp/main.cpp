@@ -57,7 +57,7 @@ extern "C"
 JNIEXPORT jobjectArray JNICALL Java_com_dark_force_NativeLibrary_getListFT(JNIEnv *env, jclass jobj){
     jobjectArray ret;
     int i;
-    const char *features[]= {"Example Toggle", "SeekBar_Slider_0_500", "Spinner_TestSpinner_weaponsList", "EditText_Test Button_this is a test hint"};
+    const char *features[]= {"Example Toggle", "SeekBar_Slider_0_500", "Spinner_TestSpinner_weaponsList", "Spacing_Who the fuck knows"};
     int Total_Feature = (sizeof features / sizeof features[0]); //Now you dont have to manually update the number everytime
     ret= (jobjectArray)env->NewObjectArray(Total_Feature,
                                            env->FindClass("java/lang/String"),
@@ -121,15 +121,4 @@ Java_com_dark_force_NativeLibrary_changeSpinner(JNIEnv *env, jclass clazz, jint 
         default:
             break;
     }
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_dark_force_NativeLibrary_changeEditText(JNIEnv *env, jclass clazz, jint i, jstring value) {
-   int li = (int) i;
-   switch (li){
-       default:
-           break;
-   }
-   return;
 }
