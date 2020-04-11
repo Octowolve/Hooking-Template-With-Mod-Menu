@@ -12,6 +12,7 @@ import android.media.Image;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -22,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,6 +37,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Native;
 import java.util.Objects;
 
 public class MenuService extends Service {
@@ -170,27 +173,30 @@ public class MenuService extends Service {
                             NativeLibrary.changeSeekBar(l2, i2);
                         }
                     });
-                } else if(str.contains("Spinner_")){
+                } else if (str.contains("Spinner_")) {
                     String[] split = str.split("_");
                     final String[] spinnerList = getSpinnerList(split[2]);
-                    addSpinner(split[1], spinnerList, new Spinner.OnItemSelectedListener(){
+                    addSpinner(split[1], spinnerList, new Spinner.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                             NativeLibrary.changeSpinner(l2, spinnerList[i]);
                         }
+
                         @Override
                         public void onNothingSelected(AdapterView<?> adapterView) {
 
                         }
                     });
-                }else {
+                } else if (str.contains("EditText_")) {
+                    String[] split = str.split("_");
+                    addTextField(split[1], split[2], l2);
+                } else {
                     addToggle(listFT[i2], new CompoundButton.OnCheckedChangeListener() {
                         public void onCheckedChanged(CompoundButton compoundButton, boolean z) {
                             NativeLibrary.changeToggle(l2);
                         }
                     });
                 }
-
             }
 
             addButton("Test", new CompoundButton.OnClickListener() {
@@ -383,6 +389,7 @@ public class MenuService extends Service {
         this.modBody.addView(textView);
     }
 
+    //I added this just for slice. FUCKING NUB DOESNT EVEN USE IT >=(
     private void addSpinner(String str, String[] strArr, AdapterView.OnItemSelectedListener onItemSelectedListener) {
         TextView textView = new TextView(this);
         textView.setText(str);
@@ -398,6 +405,43 @@ public class MenuService extends Service {
         spinner.setOnItemSelectedListener(onItemSelectedListener);
         this.modBody.addView(textView);
         this.modBody.addView(spinner);
+    }
+
+    //Currently thinking about what we need
+    private void addTextField(String str, String hint, final int id){
+        RelativeLayout relativeLayout2 = new RelativeLayout(this);
+        relativeLayout2.setLayoutParams(new RelativeLayout.LayoutParams(-2, -1));
+        relativeLayout2.setPadding(10, 10, 10, 10);
+        relativeLayout2.setVerticalGravity(16);
+        final EditText editText = new EditText(this);
+        editText.setHint(hint);
+        editText.setMaxLines(1);
+        editText.setWidth(convertDipToPixels(250.0f));
+        editText.setTextColor(Color.parseColor("#93a6ae"));
+        editText.setTextSize(13.0f);
+        editText.setHintTextColor(Color.parseColor("#434d52"));
+        //Ok we have to set a button next to it so we know when the user is finished with the typing.
+        //Makes sense xDD
+        RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(-2, -2);
+        layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        Button button2 = new Button(this);
+        button2.setLayoutParams(layoutParams2);
+        button2.setBackgroundColor(Color.parseColor("#14171f"));
+        button2.setText(str);
+        button2.setTextColor(Color.parseColor("#93a6ae"));
+        button2.setTextSize(12.0f);
+        button2.setScaleX(0.85f);
+        button2.setScaleY(0.85f);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NativeLibrary.changeEditText(id, editText.getText().toString());
+            }
+        });
+
+        relativeLayout2.addView(editText);
+        relativeLayout2.addView(button2);
+        this.modBody.addView(relativeLayout2);
     }
 
     private String[] getSpinnerList(String type){
