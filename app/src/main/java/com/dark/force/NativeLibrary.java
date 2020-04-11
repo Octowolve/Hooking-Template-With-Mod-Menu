@@ -2,7 +2,6 @@ package com.dark.force;
 
 public class NativeLibrary
 {
-    //this will automatically load the library when this class is called.
     static
     {
         System.loadLibrary("wolve");
