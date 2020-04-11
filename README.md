@@ -24,4 +24,4 @@ Also consider joining my Discord Server https://discord.gg/bmRCJQ3
 ### Layout
 This is how the menu looks like when you simply build and run it 
 
-![alt text](https://cdn.discordapp.com/attachments/693489583626911825/698625794729181265/Mod_Menu.PNG)
+![alt text](Mod%20Menu.PNG)
