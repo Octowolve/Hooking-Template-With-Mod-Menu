@@ -1,7 +1,3 @@
-//
-// Created by lucag on 05.04.2020.
-//
-
 #include <string>
 #include <stdio.h>
 #include <sys/mman.h>
