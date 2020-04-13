@@ -6,9 +6,14 @@
 #include <cstdlib>
 
 #include "Includes/Logger.h"
-#include "Substrate/CydiaSubstrate.h"
 #include "Patching/Patch.h"
 #import "Includes/Utils.h"
+
+#if defined(__aarch64__)
+#include "X64Hook/And64InlineHook.hpp"
+#else
+#include "Substrate/CydiaSubstrate.h"
+#endif
 
 bool exampleBooleanForToggle;
 int seekbarValueExample;
@@ -20,6 +25,16 @@ struct Patches{
 
 bool GameManagerLateUpdateHookInitialized = false;
 const char* libName = "libil2cpp.so";
+
+void octo_hook(void *orig_fcn, void* new_fcn, void **orig_fcn_ptr)
+{
+#if defined(__aarch64__)
+    A64HookFunction(orig_fcn, new_fcn, orig_fcn_ptr);
+#else
+    MSHookFunction(orig_fcn, new_fcn, orig_fcn_ptr);
+#endif
+}
+
 
 void(*old_GameManager_LateUpdate)(void *instance);
 void GameManager_LateUpdate(void *instance) {
@@ -48,7 +63,7 @@ void* hack_thread(void*) {
     } while (!isLibraryLoaded(libName));
     LOGI("I found the il2cpp lib. Address is: %p", (void*)findLibrary(libName));
     LOGI("Hooking GameManager_LateUpdate");
-    MSHookFunction((void*)getAbsoluteAddress(libName, 0x7000DD0), (void*)GameManager_LateUpdate, (void**)&old_GameManager_LateUpdate);
+    octo_hook((void*)getAbsoluteAddress(libName, 0x7000DD0), (void*)GameManager_LateUpdate, (void**)&old_GameManager_LateUpdate);
     patch.miniMap = Patch::Setup((void*)getAbsoluteAddress(libName, 0xF09D64), (char*)"\x01\x00\xa0\xe3\x1e\xff\x2f\xe1", 8);
     return NULL;
 }
