@@ -42,7 +42,7 @@ void GameManager_LateUpdate(void *instance) {
     //this is what the call to update would look like in C++:
     //NULL.Update(); and dat doesnt make sense right?
     //Also check if our example boolean is true so the hack will work then. if not it just returns the old method
-    if(instance != NULL && exampleBooleanForToggle) {
+    if(instance != NULL) {
         if(!GameManagerLateUpdateHookInitialized){
             //Check if this hook initialized. If so log
             GameManagerLateUpdateHookInitialized = true;
