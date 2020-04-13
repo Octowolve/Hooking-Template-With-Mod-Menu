@@ -25,3 +25,8 @@ Also consider joining my Discord Server https://discord.gg/bmRCJQ3
 This is how the menu looks like when you simply build and run it 
 
 ![Mod Menu Layout](Images/ModMenu.PNG)
+
+
+### AARCH64
+This template should support x64 hooking now thanks to this repo:
+https://github.com/Rprop/And64InlineHook
