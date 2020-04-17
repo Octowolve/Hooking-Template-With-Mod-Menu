@@ -37,6 +37,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
+#include <cmath>
 
 #ifdef __arm__
 /* WebCore (ARM) PC-Relative:
@@ -89,8 +90,16 @@ X 4790  ldr r*,[pc,#*]    */
 
 #define T1$ldr_rt_$rn_im$(rt, rn, im) /* ldr rt, [rn, #im] */ \
     (0xf850 | ((im < 0 ? 0 : 1) << 7) | (rn))
+
+template<class T> T xabs(T _Val)
+{
+        typedef int BOOL;
+        if(_Val>T(0))return _Val;
+        return -_Val;
+}
+
 #define T2$ldr_rt_$rn_im$(rt, rn, im) /* ldr rt, [rn, #im] */ \
-    (((rt) << 12) | abs(im))
+    (((rt) << 12) | xabs(im))
 
 #define T1$mrs_rd_apsr(rd) /* mrs rd, apsr */ \
     (0xf3ef)
@@ -551,7 +560,7 @@ printf("SubstrateHookFunctionThumb\n");
         sprintf(name, "%p", area);
         MSLogHexEx(area, used + sizeof(uint16_t), 2, name);
     }
-	
+
 	return used;
 }
 
@@ -576,7 +585,7 @@ printf("SubstrateHookFunctionARM\n");
 
     if (backup[0] == A$ldr_rd_$rn_im$(A$pc, A$pc, 4 - 8)) {
         *result = reinterpret_cast<void *>(backup[1]);
-        
+
 		return sizeof(backup[0]);
     }
 
@@ -687,7 +696,7 @@ printf("SubstrateHookFunctionARM\n");
         sprintf(name, "%p", area);
         MSLogHexEx(area, used + sizeof(uint32_t), 4, name);
     }
-	
+
 	return used;
 }
 
