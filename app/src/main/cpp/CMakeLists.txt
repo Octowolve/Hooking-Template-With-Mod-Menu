@@ -43,11 +43,13 @@ target_compile_features(${PROJECT_NAME}
 
 message(STATUS "CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(BUILD_TYPE_FLAGS
+    set(BUILD_TYPE_COMPILER_FLAGS
             -g3
             )
+    set(BUILD_TYPE_LINKER_FLAGS
+            )
 else()
-    set(BUILD_TYPE_FLAGS
+    set(BUILD_TYPE_COMPILER_FLAGS
             -fvisibility=hidden
             -fvisibility-inlines-hidden
             -fomit-frame-pointer
@@ -57,6 +59,10 @@ else()
             -Ofast
             -DNDEBUG
             )
+    set(BUILD_TYPE_LINKER_FLAGS
+            -Wl
+            --strip-all
+            )
 endif()
 target_compile_options(${PROJECT_NAME}
         INTERFACE
@@ -65,32 +71,28 @@ target_compile_options(${PROJECT_NAME}
         -fpermissive
         -fno-rtti
         -fno-exceptions
-        ${BUILD_TYPE_FLAGS}
+        ${BUILD_TYPE_COMPILER_FLAGS}
         )
-
 
 set_property(TARGET ${PROJECT_NAME}
         APPEND
 
         PROPERTY LINK_FLAGS
 
-        -Wl
-        --strip-all
+        ${BUILD_TYPE_LINKER_FLAGS}
         )
 # Requires cmake >= 3.13
 #target_link_options(${PROJECT_NAME}
 #    INTERFACE
 #
-#    -Wl
-#    --strip-all
+#    ${BUILD_TYPE_LINKER_FLAGS}
 #)
-
 
 find_library(
         log-lib
 
         log
-        )
+)
 
 target_link_libraries(${PROJECT_NAME}
         ${log-lib}
