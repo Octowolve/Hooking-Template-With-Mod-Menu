@@ -9,10 +9,12 @@ LOCAL_CFLAGS += -fno-rtti -fno-exceptions
 LOCAL_C_INCLUDES += $(MAIN_LOCAL_PATH)
 
 LOCAL_SRC_FILES := main.cpp \
-				   Substrate/hde64.c \
-                   Substrate/SubstrateDebug.cpp \
-                   Substrate/SubstrateHook.cpp \
-                   Substrate/SubstratePosixMemory.cpp \
+		   Patching/Patch.cpp \
+		   Substrate/hde64.c \
+           Substrate/SubstrateDebug.cpp \
+           Substrate/SubstrateHook.cpp \
+           Substrate/SubstratePosixMemory.cpp \
+           X64Hook\And64InlineHook.cpp \
 
 LOCAL_LDLIBS := -llog
 
