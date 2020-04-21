@@ -44,6 +44,7 @@ public class MenuService extends Service {
     public View mFloatingView;
     private LinearLayout modBody;
     private WindowManager windowManager;
+    private RelativeLayout relativeLayoutImage;
     private ImageView imageView;
     public IBinder onBind(Intent intent) {
         return null;
@@ -73,6 +74,8 @@ public class MenuService extends Service {
         super.onDestroy();
         if (mFloatingView != null)
             windowManager.removeView(mFloatingView);
+        if(imageView != null)
+            relativeLayoutImage.removeView(imageView);
         Toast.makeText(getBaseContext(), "MenuService Stopped", Toast.LENGTH_SHORT).show();
     }
 
@@ -107,8 +110,8 @@ public class MenuService extends Service {
         frameLayout.setLayoutParams(new FrameLayout.LayoutParams(-2, -2));
 
         //The Button layout so we can open and close the Mod Menu
-        RelativeLayout relativeLayout = new RelativeLayout(this); //Floatin Button
-        relativeLayout.setLayoutParams(new RelativeLayout.LayoutParams(-1, -1));
+        relativeLayoutImage = new RelativeLayout(this); //Floatin Button
+        relativeLayoutImage.setLayoutParams(new RelativeLayout.LayoutParams(-1, -1));
 
         //Our ImageView handler which will be used for our Open/Closed button
         imageView = new ImageView(this);
@@ -119,8 +122,8 @@ public class MenuService extends Service {
             InputStream open = getAssets().open("wolve.png");
             imageView.setImageDrawable(Drawable.createFromStream(open, null));
             open.close();
-            relativeLayout.addView(imageView);
-            this.mFloatingView = relativeLayout;
+            relativeLayoutImage.addView(imageView);
+            this.mFloatingView = relativeLayoutImage;
 
             //Main UI (Our background Image for the menu. Again change the name if your background name IMage has another name)
             //InputStream open2 = getAssets().open("ghwallpaper.jpg");
