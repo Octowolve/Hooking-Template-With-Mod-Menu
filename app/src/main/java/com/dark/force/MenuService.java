@@ -73,8 +73,6 @@ public class MenuService extends Service {
         super.onDestroy();
         if (mFloatingView != null)
             windowManager.removeView(mFloatingView);
-        if(imageView != null)
-            windowManager.removeView(imageView);
         Toast.makeText(getBaseContext(), "MenuService Stopped", Toast.LENGTH_SHORT).show();
     }
 
