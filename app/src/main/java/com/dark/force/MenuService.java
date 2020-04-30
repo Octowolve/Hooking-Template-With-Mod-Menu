@@ -1,26 +1,26 @@
 package com.dark.force;
 
+import android.animation.ArgbEvaluator;
+import android.animation.TimeAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -49,6 +49,7 @@ public class MenuService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
+    private static GradientDrawable gd = new GradientDrawable();
 
     //Override our Start Command so the Service doesnt try to recreate itself when the App is closed
     @Override
@@ -89,6 +90,8 @@ public class MenuService extends Service {
         NativeLibrary.init();
         //Create our Menu
         CreateMenu();
+        //Start the Gradient Animation
+        startAnimation();
         //Create a handler for this Class
         final Handler handler = new Handler();
         handler.post(new Runnable() {
@@ -131,6 +134,7 @@ public class MenuService extends Service {
             linearLayout.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
             //linearLayout.setBackground(Drawable.createFromStream(open2, null)); //if you wanna use the Image instead
             linearLayout.setBackgroundColor(Color.parseColor("#14171f"));
+            //linearLayout.setBackground(gd);
             linearLayout.setOrientation(LinearLayout.VERTICAL);
 
             //Head Text (Creates a Header text. Credit yourself, and me ples)
@@ -154,7 +158,9 @@ public class MenuService extends Service {
             ScrollView scrollView = new ScrollView(this);
             scrollView.setLayoutParams(new LinearLayout.LayoutParams(-1, convertDipToPixels(260.0f)));
             scrollView.setScrollBarSize(convertDipToPixels(5.0f));
-            scrollView.setBackgroundColor(Color.parseColor("#181c25"));
+            //scrollView.setBackgroundColor(Color.parseColor("#181c25"));
+            scrollView.setBackground(gd);
+
             this.modBody = new LinearLayout(this);
             this.modBody.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
             this.modBody.setOrientation(LinearLayout.VERTICAL);
@@ -471,6 +477,34 @@ public class MenuService extends Service {
             this.imageView.setVisibility(View.INVISIBLE);
         }
     }
+
+    public static void startAnimation() {
+        final int start = Color.parseColor("#c31432");
+        final int end = Color.parseColor("#240b36");
+
+        final ArgbEvaluator evaluator = new ArgbEvaluator();
+        gd.setCornerRadius(0f);
+        gd.setOrientation(GradientDrawable.Orientation.TL_BR);
+        final GradientDrawable gradient = gd;
+
+        ValueAnimator animator = TimeAnimator.ofFloat(0.0f, 1.0f);
+        animator.setDuration(3000);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.setRepeatMode(ValueAnimator.REVERSE);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                Float fraction = valueAnimator.getAnimatedFraction();
+                int newStrat = (int) evaluator.evaluate(fraction, start, end);
+                int newEnd = (int) evaluator.evaluate(fraction, end, start);
+                int[] newArray = {newStrat, newEnd};
+                gradient.setColors(newArray);
+            }
+        });
+
+        animator.start();
+    }
+
 
     private interface SeekbarInterface {
         void OnWrite(int i);
