@@ -123,6 +123,8 @@ JNIEXPORT void JNICALL Java_com_dark_force_NativeLibrary_init(JNIEnv * env, jcla
         LOGE("toast.makeText not Found");
         return;
     }
+    //The last int is the length on how long the toast should be displayed
+    //0 = Short, 1 = Long
     jobject toastobj = env->CallStaticObjectMethod(toast, methodMakeText,
                                                       thiz, jstr, 0);
 
