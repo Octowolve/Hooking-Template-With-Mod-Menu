@@ -110,8 +110,8 @@ JNIEXPORT void JNICALL Java_com_dark_force_NativeLibrary_init(JNIEnv * env, jcla
     pthread_t ptid;
     pthread_create(&ptid, NULL, hack_thread, NULL);
 
-    //Add our toast in here so it wont be able to change it simply by editing the smali and cant
-    //be cut out because this method is needed to start the hack (Im smart)
+    //Add our toast in here so it wont be easy to change by simply editing the smali and cant
+    //be cut out because this method is needed to start the hack (I'm smart)
     jstring jstr = env->NewStringUTF("No u"); //Edit this text to your desired toast message!
     jclass toast = env->FindClass("android/widget/Toast");
     jmethodID methodMakeText =
