@@ -7,7 +7,7 @@ public class NativeLibrary
         System.loadLibrary("wolve");
     }
 
-    public static native void init();
+    public static native void init(MenuService service);
 
     public static native void changeToggle(int i);
 
@@ -19,3 +19,4 @@ public class NativeLibrary
 
     public static native String[] getListFT();
 }
+
