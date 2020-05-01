@@ -21,7 +21,7 @@ This is a simple template for the usage of Cydia Substrate with a Mod Menu writt
 ### Layout
 This is how the menu looks like when you simply build and run it 
 
-![Mod Menu Layout](Images/MenuShowcase.mp4)
+![Mod Menu Layout](Images/VideoShowcase.mp4)
 
 
 ### AARCH64
