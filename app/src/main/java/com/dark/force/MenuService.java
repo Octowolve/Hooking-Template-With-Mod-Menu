@@ -1,5 +1,7 @@
 package com.dark.force;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.TimeAnimator;
 import android.animation.ValueAnimator;
@@ -15,9 +17,13 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.Html;
+import android.transition.Fade;
+import android.transition.Transition;
+import android.transition.TransitionManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -84,10 +90,8 @@ public class MenuService extends Service {
     //When this Class is called the code in this function will be executed
     public void onCreate() {
         super.onCreate();
-        //A little message for the user when he opens the app
-        Toast.makeText(this, "Happy Modding!", Toast.LENGTH_LONG).show();
         //Init Lib
-        NativeLibrary.init();
+        NativeLibrary.init(this);
         //Create our Menu
         CreateMenu();
         //Start the Gradient Animation
@@ -142,6 +146,7 @@ public class MenuService extends Service {
             textView.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
             textView.setGravity(1);
             textView.setText(Html.fromHtml("Mod by Octo"));
+            //textView.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
             textView.setTextSize(20.0f);
             textView.setTextColor(Color.parseColor("#93a6ae"));
 
@@ -510,3 +515,4 @@ public class MenuService extends Service {
         void OnWrite(int i);
     }
 }
+
