@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
@@ -209,18 +210,7 @@ public class MenuService extends Service {
 
             }
 
-            addButton("Test", new CompoundButton.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(true){
-                        Toast.makeText(MenuService.this, "Dropped AK47", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(MenuService.this, "Couldn't throw weapon", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
-
+            
             //Add Body to ScrollView
             scrollView.addView(this.modBody);
 
@@ -228,13 +218,16 @@ public class MenuService extends Service {
             relativeLayout2.setLayoutParams(new RelativeLayout.LayoutParams(-2, -1));
             relativeLayout2.setPadding(10, 10, 10, 10);
             relativeLayout2.setVerticalGravity(16);
+            
             Button button = new Button(this);
             button.setBackgroundColor(Color.parseColor("#14171f"));
             button.setText("Hide");
             button.setTextColor(Color.parseColor("#93a6ae"));
+            
             RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(-2, -2);
             layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             button.setLayoutParams(layoutParams2);
+            
             Button button2 = new Button(this);
             button2.setBackgroundColor(Color.parseColor("#14171f"));
             button2.setText("Kill");
@@ -401,16 +394,29 @@ public class MenuService extends Service {
         textView.setText(str);
         textView.setTextSize(12.0f);
         textView.setTextColor(Color.parseColor("#93a6ae"));
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
-        textView.setLayoutParams(layoutParams);
+
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
+        linearLayout.setPadding(10, 5, 10, 5);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setGravity(17);
+
         Spinner spinner = new Spinner(this);
-        spinner.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
+        LinearLayout linearLayout2 = new LinearLayout(this);
+        linearLayout2.setLayoutParams(new LinearLayout.LayoutParams(-1, -1));
+        linearLayout2.setOrientation(LinearLayout.VERTICAL);
+        spinner.setLayoutParams(linearLayout2.getLayoutParams());
+        spinner.getBackground().setColorFilter(1, PorterDuff.Mode.SRC_ATOP);
+
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, strArr);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
         spinner.setOnItemSelectedListener(onItemSelectedListener);
-        this.modBody.addView(textView);
-        this.modBody.addView(spinner);
+
+        linearLayout.addView(textView);
+        linearLayout2.addView(spinner);
+        this.modBody.addView(linearLayout);
+        this.modBody.addView(linearLayout2);
     }
 
     private void addTextField(String str, String hint, final int id){
@@ -418,6 +424,7 @@ public class MenuService extends Service {
         relativeLayout2.setLayoutParams(new RelativeLayout.LayoutParams(-2, -1));
         relativeLayout2.setPadding(10, 10, 10, 10);
         relativeLayout2.setVerticalGravity(16);
+
         final EditText editText = new EditText(this);
         editText.setHint(hint);
         editText.setMaxLines(1);
@@ -429,6 +436,7 @@ public class MenuService extends Service {
         //Makes sense xDD
         RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(-2, -2);
         layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
         Button button2 = new Button(this);
         button2.setLayoutParams(layoutParams2);
         button2.setBackgroundColor(Color.parseColor("#14171f"));
@@ -515,4 +523,3 @@ public class MenuService extends Service {
         void OnWrite(int i);
     }
 }
-
