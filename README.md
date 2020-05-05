@@ -28,7 +28,7 @@ If you are going to use the CMake build system leave it as it is
 ### Layout
 This is how the menu looks like when you simply build and run it 
 
-![Mod Menu Layout](Images/VideoShowcase.gif)
+![Mod Menu Layout](Images/MenuShowcase.gif)
 
 ![Mod Menu Layout](Images/ModMenu.PNG)
 ### AARCH64
