@@ -10,7 +10,9 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.PorterDuff;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
@@ -142,12 +144,17 @@ public class MenuService extends Service {
 
             //Head Text (Creates a Header text. Credit yourself, and me ples)
             TextView textView = new TextView(this);
+            final int start = Color.parseColor("#009FFF");
+            final int end = Color.parseColor("#ec2F4B");
+            Shader shader = new LinearGradient(0, 0, 40, textView.getLineHeight(),
+                    start, end, Shader.TileMode.MIRROR);
+            textView.getPaint().setShader(shader);
             textView.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
             textView.setGravity(1);
             textView.setText(Html.fromHtml("Mod by Octo"));
             //textView.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
             textView.setTextSize(20.0f);
-            textView.setTextColor(Color.parseColor("#93a6ae"));
+            //textView.setTextColor(Color.parseColor("#93a6ae"));
 
             TextView textView2 = new TextView(this);
             textView2.setLayoutParams(new LinearLayout.LayoutParams(-2, convertDipToPixels(25.0f)));
