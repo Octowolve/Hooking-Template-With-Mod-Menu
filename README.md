@@ -2,6 +2,8 @@
 
 This is a simple template for the usage of Cydia Substrate with a Mod Menu written in Java.
 
+If you wanna use NDK as the build system follow this:
+
 ### Installation:
 * Download Android NDK, Revision 16b from: https://developer.android.com/ndk/downloads/older_releases
 * Download this github files somewhere to your PC.
@@ -10,6 +12,11 @@ This is a simple template for the usage of Cydia Substrate with a Mod Menu writt
 
 * You need to configure Android Studio so it uses the old ndk
 * File -> Project Structure -> SDK Location set the NDK Location path to the path whereever you downloaded the android-ndk 16b too
+* change the build_method in the build.gradle file to build_ndk
+![Mod Menu Layout](Images/BuildSystem.PNG)
+
+If you are going to use the CMake build system leave it as it is
+
 
 ### How to implement this mod menu 
 * https://guidedhacking.com/threads/android-mod-menu-tutorial-very-hard-works-on-il2cpp-and-native-games-too.13795/
