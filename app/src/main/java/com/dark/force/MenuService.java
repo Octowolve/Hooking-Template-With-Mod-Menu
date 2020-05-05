@@ -144,8 +144,8 @@ public class MenuService extends Service {
 
             //Head Text (Creates a Header text. Credit yourself, and me ples)
             TextView textView = new TextView(this);
-            final int start = Color.parseColor("#009FFF");
-            final int end = Color.parseColor("#ec2F4B");
+            int start = Color.parseColor("#009FFF");
+            int end = Color.parseColor("#ec2F4B");
             Shader shader = new LinearGradient(0, 0, 40, textView.getLineHeight(),
                     start, end, Shader.TileMode.MIRROR);
             textView.getPaint().setShader(shader);
