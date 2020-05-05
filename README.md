@@ -15,7 +15,7 @@ If you wanna use NDK as the build system follow this:
 * change the build_method in the build.gradle file to build_ndk
 ![Mod Menu Layout](Images/BuildSystem.PNG)
 
-##CMake
+### CMake
 If you are going to use the CMake build system leave it as it is and under
 File -> Project Structure -> SDK Location you set the location to C:\Users\anon\AppData\Local\Android\Sdk\ndk\21.0.6113669
 (should be available when you click the arrow button)
