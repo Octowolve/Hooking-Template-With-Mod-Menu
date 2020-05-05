@@ -1,7 +1,5 @@
 package com.dark.force;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.TimeAnimator;
 import android.animation.ValueAnimator;
@@ -9,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -18,13 +17,10 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.Html;
-import android.transition.Fade;
-import android.transition.Transition;
-import android.transition.TransitionManager;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -43,6 +39,8 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class MenuService extends Service {
@@ -189,6 +187,8 @@ public class MenuService extends Service {
                     addSpinner(split[1], spinnerList, new Spinner.OnItemSelectedListener(){
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            ((TextView) adapterView.getChildAt(0)).setTextColor(Color.parseColor("#93a6ae"));
+                            ((TextView) adapterView.getChildAt(0)).setPadding(1,1,1,1);
                             NativeLibrary.changeSpinner(l2, spinnerList[i]);
                         }
                         @Override
@@ -210,7 +210,7 @@ public class MenuService extends Service {
 
             }
 
-            
+
             //Add Body to ScrollView
             scrollView.addView(this.modBody);
 
@@ -218,16 +218,16 @@ public class MenuService extends Service {
             relativeLayout2.setLayoutParams(new RelativeLayout.LayoutParams(-2, -1));
             relativeLayout2.setPadding(10, 10, 10, 10);
             relativeLayout2.setVerticalGravity(16);
-            
+
             Button button = new Button(this);
             button.setBackgroundColor(Color.parseColor("#14171f"));
             button.setText("Hide");
             button.setTextColor(Color.parseColor("#93a6ae"));
-            
+
             RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(-2, -2);
             layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             button.setLayoutParams(layoutParams2);
-            
+
             Button button2 = new Button(this);
             button2.setBackgroundColor(Color.parseColor("#14171f"));
             button2.setText("Kill");
@@ -408,9 +408,13 @@ public class MenuService extends Service {
         spinner.setLayoutParams(linearLayout2.getLayoutParams());
         spinner.getBackground().setColorFilter(1, PorterDuff.Mode.SRC_ATOP);
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, strArr);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerArrayAdapter);
+        CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(
+                this,
+                android.R.layout.simple_spinner_item,
+                Arrays.asList(strArr)
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(onItemSelectedListener);
 
         linearLayout.addView(textView);
@@ -521,5 +525,27 @@ public class MenuService extends Service {
 
     private interface SeekbarInterface {
         void OnWrite(int i);
+    }
+
+    private static class CustomSpinnerAdapter extends ArrayAdapter<String> {
+        private CustomSpinnerAdapter(Context context, int resource, List<String> items) {
+            super(context, resource, items);
+        }
+
+        // Affects default (closed) state of the spinner
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TextView view = (TextView) super.getView(position, convertView, parent);
+            return view;
+        }
+
+        // Affects opened state of the spinner
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+            view.setTextColor(Color.parseColor("#93a6ae"));
+            view.setBackgroundColor(Color.parseColor("#14171f"));
+            return view;
+        }
     }
 }
