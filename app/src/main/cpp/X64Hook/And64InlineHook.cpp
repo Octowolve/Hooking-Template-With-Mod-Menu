@@ -5,19 +5,15 @@
  */
 /*
  MIT License
-
  Copyright (c) 2018 Rprop (r_prop@outlook.com)
-
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
  The above copyright notice and this permission notice shall be included in all
  copies or substantial portions of the Software.
-
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -31,6 +27,9 @@
 #include <stdlib.h>
 #include <sys/mman.h>
 #include <android/log.h>
+#include <cstring>
+#include <errno.h>
+#include "Includes/Logger.h"
 
 #if defined(__aarch64__)
 
@@ -404,6 +403,7 @@ static bool __fix_pcreladdr(instruction inpp, instruction outpp, context *ctxp)
 }
 
 //-------------------------------------------------------------------------
+#define __flush_cache(c, n)        __builtin___clear_cache(reinterpret_cast<char *>(c), reinterpret_cast<char *>(c) + n)
 
 static void __fix_instructions(uint32_t *__restrict inp, int32_t count, uint32_t *__restrict outp)
 {
@@ -470,7 +470,6 @@ extern "C" {
 #define __atomic_increase(p)       __sync_add_and_fetch(p, 1)
 #define __sync_cmpswap(p, v, n)    __sync_bool_compare_and_swap(p, v, n)
 #define __predict_true(exp)        __builtin_expect((exp) != 0, 1)
-#define __flush_cache(c, n)        __builtin___clear_cache(reinterpret_cast<char *>(c), reinterpret_cast<char *>(c) + n)
 #define __make_rwx(p, n)           ::mprotect(__ptr_align(p), \
                                               __page_align(__uintval(p) + n) != __page_align(__uintval(p)) ? __page_align(n) + __page_size : __page_align(n), \
                                               PROT_READ | PROT_WRITE | PROT_EXEC)
