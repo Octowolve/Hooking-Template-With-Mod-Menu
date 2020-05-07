@@ -9,12 +9,6 @@
 #include "Patching/Patch.h"
 #import "Includes/Utils.h"
 
-#if defined(__aarch64__)
-#include "X64Hook/And64InlineHook.hpp"
-#else
-#include "Substrate/CydiaSubstrate.h"
-#endif
-
 bool exampleBooleanForToggle;
 int seekbarValueExample;
 const char* spinnerExampleString;
@@ -25,16 +19,6 @@ struct Patches{
 
 bool GameManagerLateUpdateHookInitialized = false;
 const char* libName = "libil2cpp.so";
-
-void octo_hook(void *orig_fcn, void* new_fcn, void **orig_fcn_ptr)
-{
-#if defined(__aarch64__)
-    A64HookFunction(orig_fcn, new_fcn, orig_fcn_ptr);
-#else
-    MSHookFunction(orig_fcn, new_fcn, orig_fcn_ptr);
-#endif
-}
-
 
 void(*old_GameManager_LateUpdate)(void *instance);
 void GameManager_LateUpdate(void *instance) {
