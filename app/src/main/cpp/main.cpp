@@ -52,8 +52,7 @@ void* hack_thread(void*) {
     return NULL;
 }
 
-extern "C"
-JNIEXPORT jobjectArray JNICALL Java_com_dark_force_NativeLibrary_getListFT(JNIEnv *env, jclass jobj){
+jobjectArray getListFT(JNIEnv *env, jclass jobj){
     jobjectArray ret;
     int i;
     const char *features[]= {"Example Toggle", "SeekBar_Slider_0_500", "Spinner_TestSpinner_weaponsList", "Spacing_Who the fuck knows", "EditText_Test_this is an example hint"};
@@ -70,13 +69,12 @@ JNIEXPORT jobjectArray JNICALL Java_com_dark_force_NativeLibrary_getListFT(JNIEn
 }
 
 
-extern "C"
-JNIEXPORT void JNICALL Java_com_dark_force_NativeLibrary_changeToggle(JNIEnv *env, jclass thisObj, jint number) {
+void changeToggle(JNIEnv *env, jclass thisObj, jint number) {
     int i = (int) number;
     switch (i) {
         case 0:
             exampleBooleanForToggle = !exampleBooleanForToggle;
-            if (exampleBooleanForToggle) {
+            if (noKillStreakReset) {
                 patch.miniMap->Apply();
             } else {
                 patch.miniMap->Reset();
@@ -89,16 +87,13 @@ JNIEXPORT void JNICALL Java_com_dark_force_NativeLibrary_changeToggle(JNIEnv *en
 }
 
 
-extern "C"
-JNIEXPORT void JNICALL Java_com_dark_force_NativeLibrary_init(JNIEnv * env, jclass obj, jobject thiz){
+void init(JNIEnv * env, jclass obj, jobject thiz){
     pthread_t ptid;
     pthread_create(&ptid, NULL, hack_thread, NULL);
-    MakeToast(env, thiz, "Mod by Octowolve");
+    MakeToast(env, thiz, "Mod by Octowolve/Silence");
 }
 
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_dark_force_NativeLibrary_changeSeekBar(JNIEnv *env, jclass clazz, jint i, jint seekbarValue) {
+void changeSeekBar(JNIEnv *env, jclass clazz, jint i, jint seekbarValue) {
     int li = (int) i;
     switch (li) {
         case 2:
@@ -110,9 +105,7 @@ Java_com_dark_force_NativeLibrary_changeSeekBar(JNIEnv *env, jclass clazz, jint 
     return;
 }
 
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_dark_force_NativeLibrary_changeSpinner(JNIEnv *env, jclass clazz, jint i, jstring value) {
+void changeSpinner(JNIEnv *env, jclass clazz, jint i, jstring value) {
     int li = (int) i;
     switch (li) {
         case 3:
@@ -123,13 +116,36 @@ Java_com_dark_force_NativeLibrary_changeSpinner(JNIEnv *env, jclass clazz, jint 
     }
 }
 
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_dark_force_NativeLibrary_changeEditText(JNIEnv *env, jclass clazz, jint i, jstring value) {
+void changeEditText(JNIEnv *env, jclass clazz, jint i, jstring value){
     int li = (int) i;
     switch (li){
         default:
             break;
     }
     return;
+}
+
+JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
+    JNIEnv* env;
+    if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_6) != JNI_OK) {
+        return JNI_ERR;
+    }
+
+    // Find your class. JNI_OnLoad is called from the correct class loader context for this to work.
+    jclass c = env->FindClass("com/dark/force/NativeLibrary");
+    if (c == nullptr) return JNI_ERR;
+
+    // Register your class' native methods.
+    static const JNINativeMethod methods[] = {
+            {"changeEditText", "(ILjava/lang/String;)V", reinterpret_cast<void*>(changeEditText)},
+            {"changeSeekBar", "(II)V", reinterpret_cast<void*>(changeSeekBar)},
+            {"changeSpinner", "(ILjava/lang/String;)V", reinterpret_cast<void*>(changeSpinner)},
+            {"changeToggle", "(I)V", reinterpret_cast<void*>(changeToggle)},
+            {"getListFT", "()[Ljava/lang/String;", reinterpret_cast<void*>(getListFT)},
+            {"init", "(Lcom/dark/force/MenuService;)V", reinterpret_cast<void*>(init)},
+    };
+    int rc = env->RegisterNatives(c, methods, sizeof(methods)/sizeof(JNINativeMethod));
+    if (rc != JNI_OK) return rc;
+
+    return JNI_VERSION_1_6;
 }
