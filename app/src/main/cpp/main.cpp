@@ -109,31 +109,7 @@ extern "C"
 JNIEXPORT void JNICALL Java_com_dark_force_NativeLibrary_init(JNIEnv * env, jclass obj, jobject thiz){
     pthread_t ptid;
     pthread_create(&ptid, NULL, hack_thread, NULL);
-
-    //Add our toast in here so it wont be easy to change by simply editing the smali and cant
-    //be cut out because this method is needed to start the hack (I'm smart)
-    jstring jstr = env->NewStringUTF("No u"); //Edit this text to your desired toast message!
-    jclass toast = env->FindClass("android/widget/Toast");
-    jmethodID methodMakeText =
-            env->GetStaticMethodID(
-                    toast,
-                    "makeText",
-                    "(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;");
-    if (methodMakeText == NULL) {
-        LOGE("toast.makeText not Found");
-        return;
-    }
-    //The last int is the length on how long the toast should be displayed
-    //0 = Short, 1 = Long
-    jobject toastobj = env->CallStaticObjectMethod(toast, methodMakeText,
-                                                      thiz, jstr, 0);
-
-    jmethodID methodShow = env->GetMethodID(toast, "show", "()V");
-    if (methodShow == NULL) {
-        LOGE("toast.show not Found");
-        return;
-    }
-    env->CallVoidMethod(toastobj, methodShow);
+    MakeToast(env, thiz, "Mod by Octowolve");
 }
 
 extern "C"
