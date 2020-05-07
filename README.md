@@ -2,6 +2,8 @@
 
 This is a simple template for the usage of Cydia Substrate with a Mod Menu written in Java.
 
+PLEASE MAKE SURE YOU DONT HAVE ANY SPACES IN YOUR PATH TO THIS PROJECT!
+
 If you wanna use NDK as the build system follow this:
 
 ### Installation:
