@@ -2,6 +2,11 @@
 #define UTILS_H
 #include <jni.h>
 #include <unistd.h>
+#if defined(__aarch64__)
+#include "X64Hook/And64InlineHook.hpp"
+#else
+#include "Substrate/CydiaSubstrate.h"
+#endif
 
 typedef unsigned long DWORD;
 static DWORD libBase;
@@ -10,6 +15,7 @@ DWORD findLibrary(const char *library);
 DWORD getAbsoluteAddress(const char* libraryName, DWORD relativeAddr);
 bool isLibraryLoaded(const char *libraryName);
 void MakeToast(JNIEnv* env, jobject thiz, const char* text);
+void octo_hook(void *orig_fcn, void* new_fcn, void **orig_fcn_ptr);
 
 DWORD findLibrary(const char *library) {
     char filename[0xFF] = {0},
@@ -90,4 +96,12 @@ void MakeToast(JNIEnv* env, jobject thiz, const char* text){
     env->CallVoidMethod(toastobj, methodShow);
 }
 
+void octo_hook(void *orig_fcn, void* new_fcn, void **orig_fcn_ptr)
+{
+#if defined(__aarch64__)
+    A64HookFunction(orig_fcn, new_fcn, orig_fcn_ptr);
+#else
+    MSHookFunction(orig_fcn, new_fcn, orig_fcn_ptr);
+#endif
+}
 #endif
