@@ -47,8 +47,8 @@ void* hack_thread(void*) {
     } while (!isLibraryLoaded(libName));
     LOGI("I found the il2cpp lib. Address is: %p", (void*)findLibrary(libName));
     LOGI("Hooking GameManager_LateUpdate");
-    octo_hook((void*)getAbsoluteAddress(libName, 0x7000DD0), (void*)GameManager_LateUpdate, (void**)&old_GameManager_LateUpdate);
-    patch.miniMap = Patch::Setup((void*)getAbsoluteAddress(libName, 0xF09D64), (char*)"\x01\x00\xa0\xe3\x1e\xff\x2f\xe1", 8);
+    octo_hook((void*)getAbsoluteAddress(0x7000DD0), (void*)GameManager_LateUpdate, (void**)&old_GameManager_LateUpdate);
+    patch.miniMap = Patch::Setup((void*)getAbsoluteAddress(0xF09D64), (char*)"\x01\x00\xa0\xe3\x1e\xff\x2f\xe1", 8);
     return NULL;
 }
 
