@@ -12,7 +12,7 @@ typedef unsigned long DWORD;
 static DWORD libBase;
 
 DWORD findLibrary(const char *library);
-DWORD getAbsoluteAddress(const char* libraryName, DWORD relativeAddr);
+DWORD getAbsoluteAddress(DWORD relativeAddr, const char *libraryName);
 bool isLibraryLoaded(const char *libraryName);
 void MakeToast(JNIEnv* env, jobject thiz, const char* text);
 void octo_hook(void *orig_fcn, void* new_fcn, void **orig_fcn_ptr);
@@ -48,8 +48,8 @@ DWORD findLibrary(const char *library) {
     return address;
 }
 
-DWORD getAbsoluteAddress(const char* libraryName, DWORD relativeAddr) {
-    if(libBase == 0)
+DWORD getAbsoluteAddress(DWORD relativeAddr, const char *libraryName = libName) {
+    if (libBase == 0)
         libBase = findLibrary(libraryName);
     if (libBase != 0)
         return (reinterpret_cast<DWORD>(libBase + relativeAddr));
