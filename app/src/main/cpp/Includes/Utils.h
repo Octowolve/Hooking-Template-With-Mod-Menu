@@ -10,6 +10,7 @@
 
 typedef unsigned long DWORD;
 static DWORD libBase;
+const char* libName = "libil2cpp.so";
 
 DWORD findLibrary(const char *library);
 DWORD getAbsoluteAddress(DWORD relativeAddr, const char *libraryName);
