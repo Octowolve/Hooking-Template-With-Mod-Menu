@@ -23,7 +23,8 @@ DWORD findLibrary(const char *library) {
     FILE *fp = NULL;
     DWORD address = 0;
 
-    sprintf( filename, "/proc/self/maps");
+    //sprintf( filename, "/proc/self/maps"); Buffer Overflow warning. shit is depreceated
+    snprintf(filename, sizeof(filename) ,"/proc/self/maps");
 
     fp = fopen( filename, "rt" );
     if( fp == NULL ){
