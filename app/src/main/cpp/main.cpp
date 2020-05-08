@@ -18,7 +18,6 @@ struct Patches{
 }patch;
 
 bool GameManagerLateUpdateHookInitialized = false;
-const char* libName = "libil2cpp.so";
 
 void(*old_GameManager_LateUpdate)(void *instance);
 void GameManager_LateUpdate(void *instance) {
