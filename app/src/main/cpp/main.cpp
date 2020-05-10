@@ -89,7 +89,7 @@ void changeToggle(JNIEnv *env, jclass thisObj, jint number) {
 void init(JNIEnv * env, jclass obj, jobject thiz){
     pthread_t ptid;
     pthread_create(&ptid, NULL, hack_thread, NULL);
-    MakeToast(env, thiz, "Mod by Octowolve/Silence");
+    MakeToast(env, thiz, "Mod by Octowolve/Silence - https://piin.dev");
 }
 
 void changeSeekBar(JNIEnv *env, jclass clazz, jint i, jint seekbarValue) {
