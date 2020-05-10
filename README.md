@@ -7,20 +7,7 @@ PLEASE MAKE SURE YOU DONT HAVE ANY SPACES IN YOUR PATH TO THIS PROJECT!
 If you wanna use NDK as the build system follow this:
 
 ### Installation:
-* Download Android NDK, Revision 16b from: https://developer.android.com/ndk/downloads/older_releases
-* Download this github files somewhere to your PC.
-
-### Android Studio
-
-* You need to configure Android Studio so it uses the old ndk
-* File -> Project Structure -> SDK Location set the NDK Location path to the path whereever you downloaded the android-ndk 16b too
-* change the build_method in the build.gradle file to build_ndk
-![Mod Menu Layout](Images/BuildSystem.PNG)
-
-### CMake
-If you are going to use the CMake build system leave it as it is and under
-File -> Project Structure -> SDK Location you set the location to C:\Users\anon\AppData\Local\Android\Sdk\ndk\21.0.6113669
-(should be available when you click the arrow button)
+* Folllow this tutorial: https://piin.dev/showthread.php?tid=3
 
 ### How to implement this mod menu 
 * https://guidedhacking.com/threads/android-mod-menu-tutorial-very-hard-works-on-il2cpp-and-native-games-too.13795/
