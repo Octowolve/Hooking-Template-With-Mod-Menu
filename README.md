@@ -6,7 +6,7 @@ This is a simple template for the usage of Cydia Substrate with a Mod Menu writt
 * Folllow this tutorial: https://piin.dev/showthread.php?tid=3
 
 ### Implementation:
-* https://guidedhacking.com/threads/android-mod-menu-tutorial-very-hard-works-on-il2cpp-and-native-games-too.13795/
+* https://piin.dev/showthread.php?tid=9
 * Read this tutorial carefully 
 
 ### Tutorial:
