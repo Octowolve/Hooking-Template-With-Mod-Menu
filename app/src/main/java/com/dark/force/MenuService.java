@@ -123,11 +123,11 @@ public class MenuService extends Service {
 
         //Our ImageView handler which will be used for our Open/Closed button
         imageView = new ImageView(this);
-        imageView.setLayoutParams(new RelativeLayout.LayoutParams(convertDipToPixels(50.0f), convertDipToPixels(50.0f)));
+        imageView.setLayoutParams(new RelativeLayout.LayoutParams(convertDipToPixels(75.0f), convertDipToPixels(75.0f)));
 
         try {
             //Load Image (wolve.png is the Image I use. If your button image has another name change it here)
-            InputStream open = getAssets().open("wolve.png");
+            InputStream open = getAssets().open("PiinLogoRed.png");
             imageView.setImageDrawable(Drawable.createFromStream(open, null));
             open.close();
             relativeLayoutImage.addView(imageView);
