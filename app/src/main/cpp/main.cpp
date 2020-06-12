@@ -73,7 +73,7 @@ void changeToggle(JNIEnv *env, jclass thisObj, jint number) {
     switch (i) {
         case 0:
             exampleBooleanForToggle = !exampleBooleanForToggle;
-            if (noKillStreakReset) {
+            if (exampleBooleanForToggle) {
                 patch.miniMap->Apply();
             } else {
                 patch.miniMap->Reset();
