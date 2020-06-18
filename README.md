@@ -1,6 +1,6 @@
-# Substrate-Template-With-Mod-Menu
+# Hooking-Template-With-Mod-Menu
 
-This is a simple template for the usage of Cydia Substrate with a Mod Menu written in Java.
+This is a simple template for the usage of Cydia Substrate and And64InlineHook with a Mod Menu written in Java.
 
 ### Setup:
 * Folllow this tutorial: https://piin.dev/showthread.php?tid=3
