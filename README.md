@@ -3,7 +3,7 @@
 This is a simple template for the usage of Cydia Substrate and And64InlineHook with a Mod Menu written in Java.
 
 ### Implementation:
-* https://piin.dev/viewtopic.php?f=4&t=14&p=21#p21
+* https://piin.dev/mod-menu-implementation-t14.html
 * Read this tutorial carefully
 
 ### Tutorial:
