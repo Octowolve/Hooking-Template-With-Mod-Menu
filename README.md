@@ -9,6 +9,9 @@ This is a simple template for the usage of Cydia Substrate and And64InlineHook w
 ### Tutorial:
 * https://guidedhacking.com/threads/function-pointers-and-a-tutorial-for-my-hooking-template.14771/#post-90490
 
+### Still need help?
+* https://discord.gg/bmRF2ac
+
 ### Layout:
 This is how the menu looks like when you simply build and run it 
 
