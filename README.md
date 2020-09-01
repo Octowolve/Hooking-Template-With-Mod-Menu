@@ -22,6 +22,7 @@ This is how the menu looks like when you simply build and run it
 ![Mod Menu Layout](Images/ModMenu.PNG)
 
 </details>
+
 ### Credits:
 This template should support x64 hooking now thanks to this repo:
 https://github.com/Rprop/And64InlineHook
