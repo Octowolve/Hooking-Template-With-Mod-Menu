@@ -12,13 +12,16 @@ This is a simple template for the usage of Cydia Substrate and And64InlineHook w
 ### Still need help?
 * https://discord.gg/bmRF2ac
 
-### Layout:
+<details>
+
+<summary>Layout:</summary>
 This is how the menu looks like when you simply build and run it 
 
 ![Mod Menu Layout](Images/MenuShowcase.gif)
 
 ![Mod Menu Layout](Images/ModMenu.PNG)
 
+</details>
 ### Credits:
 This template should support x64 hooking now thanks to this repo:
 https://github.com/Rprop/And64InlineHook
