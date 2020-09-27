@@ -10,7 +10,7 @@ This is a simple template for the usage of Cydia Substrate and And64InlineHook w
 * https://guidedhacking.com/threads/function-pointers-and-a-tutorial-for-my-hooking-template.14771/#post-90490
 
 ### Still need help?
-![Discord](https://img.shields.io/discord/720937884814671923?color=%237289DA&logo=discord&logoColor=%23fff&style=for-the-badge)
+[![Discord](https://img.shields.io/discord/720937884814671923?color=%237289DA&logo=discord&logoColor=%23fff&style=for-the-badge)](https://discord.gg/bmRF2ac)
 
 <details>
 
