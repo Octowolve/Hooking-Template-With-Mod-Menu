@@ -1,6 +1,7 @@
 # Hooking-Template-With-Mod-Menu
 [![License](https://img.shields.io/github/license/Octowolve/Hooking-Template-With-Mod-Menu?logo=github&logoColor=%23fff&style=for-the-badge)](LICENSE)
 [![Discord](https://img.shields.io/discord/720937884814671923?color=%237289DA&logo=discord&logoColor=%23fff&style=for-the-badge)](https://discord.gg/bmRF2ac)
+![Size](https://img.shields.io/github/repo-size/Octowolve/Hooking-Template-With-Mod-Menu?style=for-the-badge)
 
 This is a simple template for the usage of Cydia Substrate and And64InlineHook with a Mod Menu written in Java.
 
