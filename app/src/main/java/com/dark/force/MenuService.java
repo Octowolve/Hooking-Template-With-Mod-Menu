@@ -158,7 +158,7 @@ public class MenuService extends Service {
 
             TextView modSubHeading = new TextView(this);
             modSubHeading.setLayoutParams(new LinearLayout.LayoutParams(-2, convertDipToPixels(25.0f)));
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) textView2.getLayoutParams();
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) modSubHeading.getLayoutParams();
             layoutParams.gravity = 17;
             layoutParams.bottomMargin = 10;
             modSubHeading.setTextSize(15.0f);
@@ -298,13 +298,13 @@ public class MenuService extends Service {
                     }
                 }
             });
-            button.setOnClickListener(new View.OnClickListener() {
+            hideButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     create.hide();
                     imageView.setVisibility(View.VISIBLE);
                 }
             });
-            button2.setOnClickListener(new View.OnClickListener() {
+            killButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     create.hide();
                     MenuService.this.stopSelf();
