@@ -126,7 +126,7 @@ public class MenuService extends Service {
         imageView.setLayoutParams(new RelativeLayout.LayoutParams(convertDipToPixels(75.0f), convertDipToPixels(75.0f)));
 
         try {
-            //Load Image (wolve.png is the Image I use. If your button image has another name change it here)
+            //Load Image (PiinLogoRed.png is the Image I use. If your button image has another name change it here)
             InputStream open = getAssets().open("PiinLogoRed.png");
             imageView.setImageDrawable(Drawable.createFromStream(open, null));
             open.close();
@@ -143,27 +143,27 @@ public class MenuService extends Service {
             linearLayout.setOrientation(LinearLayout.VERTICAL);
 
             //Head Text (Creates a Header text. Credit yourself, and me ples)
-            TextView textView = new TextView(this);
+            TextView modHeading = new TextView(this);
             int start = Color.parseColor("#009FFF");
             int end = Color.parseColor("#ec2F4B");
-            Shader shader = new LinearGradient(0, 0, 40, textView.getLineHeight(),
+            Shader shader = new LinearGradient(0, 0, 40, modHeading.getLineHeight(),
                     start, end, Shader.TileMode.MIRROR);
-            textView.getPaint().setShader(shader);
-            textView.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
-            textView.setGravity(1);
-            textView.setText(Html.fromHtml("Mod by Octo"));
+            modHeading.getPaint().setShader(shader);
+            modHeading.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
+            modHeading.setGravity(1);
+            modHeading.setText(Html.fromHtml("Mod by Octo"));
             //textView.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
-            textView.setTextSize(20.0f);
+            modHeading.setTextSize(20.0f);
             //textView.setTextColor(Color.parseColor("#93a6ae"));
 
-            TextView textView2 = new TextView(this);
-            textView2.setLayoutParams(new LinearLayout.LayoutParams(-2, convertDipToPixels(25.0f)));
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) textView2.getLayoutParams();
+            TextView modSubHeading = new TextView(this);
+            modSubHeading.setLayoutParams(new LinearLayout.LayoutParams(-2, convertDipToPixels(25.0f)));
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) modSubHeading.getLayoutParams();
             layoutParams.gravity = 17;
             layoutParams.bottomMargin = 10;
-            textView2.setTextSize(15.0f);
-            textView2.setText(Html.fromHtml("Fuck"));
-            textView2.setTextColor(Color.parseColor("#93a6ae"));
+            modSubHeading.setTextSize(15.0f);
+            modSubHeading.setText(Html.fromHtml("Fuck"));
+            modSubHeading.setTextColor(Color.parseColor("#93a6ae"));
 
             //Scrollview for Toggles and Main Body
             ScrollView scrollView = new ScrollView(this);
@@ -226,25 +226,25 @@ public class MenuService extends Service {
             relativeLayout2.setPadding(10, 10, 10, 10);
             relativeLayout2.setVerticalGravity(16);
 
-            Button button = new Button(this);
-            button.setBackgroundColor(Color.parseColor("#14171f"));
-            button.setText("Hide");
-            button.setTextColor(Color.parseColor("#93a6ae"));
+            Button hideButton = new Button(this);
+            hideButton.setBackgroundColor(Color.parseColor("#14171f"));
+            hideButton.setText("Hide");
+            hideButton.setTextColor(Color.parseColor("#93a6ae"));
 
             RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(-2, -2);
             layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            button.setLayoutParams(layoutParams2);
+            hideButton.setLayoutParams(layoutParams2);
 
-            Button button2 = new Button(this);
-            button2.setBackgroundColor(Color.parseColor("#14171f"));
-            button2.setText("Kill");
-            button2.setTextColor(Color.parseColor("#93a6ae"));
-            relativeLayout2.addView(button);
-            relativeLayout2.addView(button2);
+            Button killButton = new Button(this);
+            killButton.setBackgroundColor(Color.parseColor("#14171f"));
+            killButton.setText("Kill");
+            killButton.setTextColor(Color.parseColor("#93a6ae"));
+            relativeLayout2.addView(hideButton);
+            relativeLayout2.addView(killButton);
 
             //Add Everything to LinearLayout
-            linearLayout.addView(textView);
-            linearLayout.addView(textView2);
+            linearLayout.addView(modHeading);
+            linearLayout.addView(modSubHeading);
             linearLayout.addView(scrollView);
             linearLayout.addView(relativeLayout2);
             frameLayout.addView(linearLayout);
@@ -298,13 +298,13 @@ public class MenuService extends Service {
                     }
                 }
             });
-            button.setOnClickListener(new View.OnClickListener() {
+            hideButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     create.hide();
                     imageView.setVisibility(View.VISIBLE);
                 }
             });
-            button2.setOnClickListener(new View.OnClickListener() {
+            killButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     create.hide();
                     MenuService.this.stopSelf();
