@@ -1,5 +1,3 @@
-o, here's our gitignore file:
-
 #built application files
 *.apk
 *.ap_
