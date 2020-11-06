@@ -7,7 +7,7 @@
 
 #include "Includes/Logger.h"
 #include "Patching/Patch.h"
-#import "Includes/Utils.h"
+#include "Includes/Utils.h"
 
 bool exampleBooleanForToggle;
 int seekbarValueExample;
