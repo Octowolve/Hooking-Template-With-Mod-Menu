@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application'
 
-def build_ndk    = "NDK"
-def build_cmake  = "CMAKE"
-def build_method = build_cmake
-
 android {
     compileSdkVersion 28
     buildToolsVersion "29.0.3"
@@ -14,15 +10,15 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        if (build_method == build_cmake) {
-            externalNativeBuild {
-                cmake {
-                    arguments "-DANDROID_NATIVE_API_LEVEL=" + String.valueOf(minSdkVersion)
-                    arguments "-DANDROID_LD=lld"
-                    arguments "-DANDROID_STL=c++_shared"
-                }
+
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_NATIVE_API_LEVEL=" + String.valueOf(minSdkVersion)
+                arguments "-DANDROID_LD=lld"
+                arguments "-DANDROID_STL=c++_shared"
             }
         }
+
         ndk {
             abiFilters 'armeabi-v7a', 'x86', 'arm64-v8a'
         }
@@ -35,16 +31,9 @@ android {
         }
     }
     externalNativeBuild {
-        if (build_method == build_cmake) {
-            cmake {
-                path "src/main/cpp/CMakeLists.txt"
-                version "3.10.2"
-            }
-        }
-        else if (build_method == build_ndk) {
-            ndkBuild {
-                path file('src/main/cpp/Android.mk')
-            }
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.10.2"
         }
     }
     compileOptions {
