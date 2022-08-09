@@ -20,12 +20,9 @@ target_sources(${PROJECT_NAME}
 
         main.cpp
         Patching/Patch.cpp
-        Substrate/hde64.c
-        Substrate/SubstrateDebug.cpp
-        Substrate/SubstrateHook.cpp
-        Substrate/SubstratePosixMemory.cpp
-        X64Hook/And64InlineHook.cpp
         )
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Dobby/include)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
@@ -94,6 +91,9 @@ find_library(
         log
 )
 
+set(DOBBY_LIB ${CMAKE_CURRENT_SOURCE_DIR}/Dobby/${CMAKE_ANDROID_ARCH_ABI}/libdobby.a)
+
 target_link_libraries(${PROJECT_NAME}
         ${log-lib}
+        ${DOBBY_LIB}
         )

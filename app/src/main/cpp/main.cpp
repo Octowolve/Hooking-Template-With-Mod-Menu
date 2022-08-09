@@ -4,6 +4,7 @@
 #include <dlfcn.h>
 #include <cstdio>
 #include <cstdlib>
+#include <dobby.h>
 
 #include "Includes/Logger.h"
 #include "Patching/Patch.h"
@@ -43,11 +44,11 @@ void* hack_thread(void*) {
     // loop until our target library is found
     do {
         sleep(1);
-    } while (!isLibraryLoaded(libName));
-    LOGI("I found the il2cpp lib. Address is: %p", (void*)findLibrary(libName));
+    } while (!utils::is_library_loaded(libName));
+    LOGI("I found the il2cpp lib. Address is: %p", (void*)utils::find_library(libName));
     LOGI("Hooking GameManager_LateUpdate");
-    octo_hook((void*)getAbsoluteAddress(0x7000DD0), (void*)GameManager_LateUpdate, (void**)&old_GameManager_LateUpdate);
-    patch.miniMap = Patch::Setup((void*)getAbsoluteAddress(0xF09D64), (char*)"\x01\x00\xa0\xe3\x1e\xff\x2f\xe1", 8);
+    DobbyHook((void*)utils::get_absolute_address(0x7000DD0), (void*)GameManager_LateUpdate, (void**)&old_GameManager_LateUpdate);
+    patch.miniMap = Patch::Setup((void*)utils::get_absolute_address(0xF09D64), (char*)"\x01\x00\xa0\xe3\x1e\xff\x2f\xe1", 8);
     return NULL;
 }
 
@@ -89,7 +90,7 @@ void changeToggle(JNIEnv *env, jclass thisObj, jint number) {
 void init(JNIEnv * env, jclass obj, jobject thiz){
     pthread_t ptid;
     pthread_create(&ptid, NULL, hack_thread, NULL);
-    MakeToast(env, thiz, "Mod by Octowolve/Silence - https://piin.dev");
+    utils::make_toast(env, thiz, "Mod by Octowolve/Silence - https://piin.dev");
 }
 
 void changeSeekBar(JNIEnv *env, jclass clazz, jint i, jint seekbarValue) {
